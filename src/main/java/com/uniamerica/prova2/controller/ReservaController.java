@@ -1,5 +1,6 @@
 package com.uniamerica.prova2.controller;
 
+import com.uniamerica.prova2.model.Carro;
 import com.uniamerica.prova2.model.Reserva;
 import com.uniamerica.prova2.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,23 @@ import java.util.List;
 @RequestMapping("/reserva")
 public class ReservaController {
 
-    @Autowired
+    final
     ReservaService reservaService;
+
+    public ReservaController(ReservaService reservaService) {
+        this.reservaService = reservaService;
+    }
 
     @PostMapping
     ResponseEntity<?> insereReserva(@RequestBody Reserva reserva) throws Exception {
+        List<Carro> listaDeCarrosReservados = reservaService.listaCarrosReservados();
         Reserva add;
         try {
+            for(Carro temp : listaDeCarrosReservados){
+                if(temp.getId().equals(reserva.getCarroReservado().getId())){
+                    throw new Exception("Carro reservado!");
+                }
+            }
             add = reservaService.insereReserva(reserva);
         } catch (Exception e) {
             throw new Exception(e);

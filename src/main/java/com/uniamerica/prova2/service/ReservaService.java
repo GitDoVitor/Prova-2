@@ -1,20 +1,24 @@
 package com.uniamerica.prova2.service;
 
+import com.uniamerica.prova2.model.Carro;
 import com.uniamerica.prova2.model.Reserva;
 import com.uniamerica.prova2.model.StatusReserva;
+import com.uniamerica.prova2.repository.CarroRepository;
 import com.uniamerica.prova2.repository.ReservaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ReservaService {
 
-    final
-    ReservaRepository reservaRepository;
+    final ReservaRepository reservaRepository;
+    final CarroRepository carroRepository;
 
-    public ReservaService(ReservaRepository reservaRepository) {
+    public ReservaService(ReservaRepository reservaRepository, CarroRepository carroRepository) {
         this.reservaRepository = reservaRepository;
+        this.carroRepository = carroRepository;
     }
 
     public Reserva insereReserva(Reserva reserva) throws Exception {
@@ -42,5 +46,13 @@ public class ReservaService {
         return reservaRepository.findAll();
     }
 
+    public List<Carro> listaCarrosReservados() {
+        List<Reserva> listaDeReservas = reservaRepository.findAll();
+        List<Carro> listaDeCarrosReservados = new ArrayList<>();
 
+        for(Reserva temp : listaDeReservas) {
+            listaDeCarrosReservados.add(temp.getCarroReservado());
+        }
+        return listaDeCarrosReservados;
+    }
 }
