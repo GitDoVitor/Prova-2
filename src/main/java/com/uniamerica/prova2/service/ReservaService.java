@@ -23,7 +23,7 @@ public class ReservaService {
     }
 
     public Reserva iniciaReserva(Long id) throws Exception {
-        Reserva reserva = reservaRepository.findReservaById(id);
+        Reserva reserva = reservaRepository.getOne(id);
         if (reserva.getStatus() != StatusReserva.reservado) {
             throw new Exception("Reserva não agendada");
         } else {
@@ -33,7 +33,7 @@ public class ReservaService {
     }
 
     public Reserva finalizaReserva(Long id) {
-        Reserva reserva = reservaRepository.findReservaById(id);
+        Reserva reserva = reservaRepository.getOne(id);
         reserva.setStatus(StatusReserva.finalizado);
         return reservaRepository.save(reserva);
     }

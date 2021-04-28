@@ -32,25 +32,25 @@ public class ReservaController {
         return reservaService.listaTodasReservas();
     }
 
-    @PostMapping("/inicia/{id}")
-    public ResponseEntity<?> iniciaReserva(@PathVariable Long id) throws Exception {
+    @PutMapping("/inicia/{id}")
+    public ResponseEntity<?> iniciaReserva(@PathVariable(value = "id") Long id) throws Exception {
         Reserva add;
         try {
             add = reservaService.iniciaReserva(id);
         } catch (Exception e) {
             throw new Exception(e);
         }
-        return new ResponseEntity<>(add, null, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/finaliza/{id}")
-    public ResponseEntity<?> finalizaReserva(@PathVariable Long id) throws Exception {
+    @PutMapping("/finaliza/{id}")
+    public ResponseEntity<?> finalizaReserva(@PathVariable(value = "id") Long id) throws Exception {
         Reserva add;
         try {
             add = reservaService.finalizaReserva(id);
         } catch (Exception e) {
             throw new Exception(e);
         }
-        return new ResponseEntity<>(add, null, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
